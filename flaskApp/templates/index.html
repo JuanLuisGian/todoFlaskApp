@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOLIST</title>
+    <link rel ="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <!--Booststrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!--Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre&display=swap" rel="stylesheet"> 
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	title:{
+		text: "Tareas ingresadas"
+	},
+	axisY: {
+		title: "Datos Ingresados"
+	},
+	data: [{        
+		type: "column",  
+		showInLegend: true, 
+		legendMarkerColor: "blue",
+		legendText: "Tareas unitarias",
+		dataPoints: [      
+			{ y: {{TotalDatos}},  label: "Tú " }
+		]
+	}]
+});
+chart.render();
+
+}
+</script>
+</head>
+<body>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <main class="container p-4">
+        <h1 class="display-2 text-center mt-4">APUNTA LO QUE QUIERES HACER ESTA SEMANA </h1>
+        <h2 class="display-4 text-center title m-3"> puedes ver todos tus pendientes  cualquier momento</h2>
+    <div class="row">
+        <div class="col-md-4 offset-md-4 my-auto">
+            <div class="card">
+                <div class="card-header">
+                    <form action="/create-task" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="content" placeholder="Identificador" class="form-control" autofocus >
+                        
+                        
+                            <input type="text" name="titulo" placeholder="Título" class="form-control" autofocus>
+                       
+            
+                        
+                            <input type="text" name="prioridad" placeholder="Prioridad" class="form-control" autofocus>
+                        
+
+                        
+                            <input type="text" name="hecho_form" placeholder="Ya lo hiciste?" class="form-control" autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                        
+
+                    </form>
+                    <span>
+                        <a href="{{url_for('recordatorios')}}" class="btn btn-light btn-sm">Ver todos los recordatorios</a>
+                        <ul class="list-group">
+        
+                        {% for x in todos_los_recordatorios %}
+                                <li class="list-group-item "><p>NO.{{x.ID}} , Qué debes hacer:{{x.TITULO}}.</p>
+                                    <p>prioridad:{{x.PRIORIDAD}}</p></li>
+                            
+                        {% endfor %}
+                        
+                        </ul>
+                        <div class="container bg-primary" id="chartContainer" style="height: 300px; width: 50%;"></div> 
+                    </span>
+                  
+                </div>
+                
+            </div>
+            
+        </div>
+        
+
+    </div>
+    
+    </main>
+    
+</body>
+</html>
